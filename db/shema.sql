@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS messageApp_db;
+CREATE DATABASE messageApp_db;
