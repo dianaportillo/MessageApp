@@ -54,3 +54,4 @@ signUpBtn.addEventListener('click', async (event) => {
         alert(error);
     }
 });
+
