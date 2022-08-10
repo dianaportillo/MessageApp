@@ -22,6 +22,11 @@ router.post('/todos', async (req, res) => {
     }
 });
 
+
+router.post('/room', async (req, res, next) => {
+    res.render('/room', {title: 'Chat Room'});
+});
+
 router.post('/signup', async (req, res) => {
     try { 
         const newUser = await User.create(req.body);
@@ -37,6 +42,24 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+
+router.post('/signup', async (req, res) => {
+    try {
+        // adds signup data to database
+        // post data: { username: '', password: ''}
+        const newUser = await User.create(req.body);
+
+        // saves user session with new user data
+        req.session.save(() => {
+            req.session.user = newUser;
+            req.session.isLoggedIn = true;
+            res.json(newUser);
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({error});
+    }
+});
 
 
 router.post('/signin', async (req, res) => {
