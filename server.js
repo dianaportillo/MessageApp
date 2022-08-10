@@ -2,9 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const exphbs = require('express-handlebars');
 const expsesh = require('express-session');
-const app = express();
+const app = require("express")();
 const server = require('http').Server(app);
 
+const next = require("next");
+const nextApp = next({ dev });
+const nextHandler = nextApp.getRequestHandler();
 const SequelizeStore = require('connect-session-sequelize')(expsesh.Store);
 const sequelize = require('./config/connection');
 const routes = require('./controllers/homepageController');
@@ -34,9 +37,23 @@ const {
    addUser,
    getCurrentUser,
    removeUser,
-   getRooms,
+   getRoomUsers,
 } = require('./utils/users');
+const { param } = require('./controllers/homepageController');
 
+nextApp.prepare().then() => {
+   app.get("*", (reg, res) => {
+      return nextHandler(req, res);
+   });
+
+   server.listen(PORT, (err)) => {
+      if (err) {
+         console.log("Invalid");
+         console.log(err)
+      }
+   }
+   console.log('Ready on port http:localhost:${PORT}');
+};
 
 const io = require('socket.io')(server);
 
@@ -45,26 +62,90 @@ io.on('connect', (socket) => {
       JOIN_ROOM,
       CHAT_MESSAGE,
       ROOM_USERS,
-      DISCONNECT
+      DISCONNECT,
    } = SOCKET_EVENTS;
 })
 
+socket.on(JOIN_ROOM), ({ username, room }) => {
+   socket.join(rom);
+   addUser(socket.id, username, room);
 
-// template engine setup
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
+   socket.emit(
+      CHAT_MESSAGE,
+      new TextMessage(
+         "CHAT_BOT",
+         'Welcome to Anomly ${username}!',
+         Message.BOT
+      )
+   );
 
-app.use(express.static('public'));
+   socket.broadcast
+      .to(room)
+      .emit(
+         CHAT_MESSAGE,
+         new TextMessage(
+            "CHAT_BOT",
+            '${username} has joined the room',
+            Message.BOT
+         )
+      );
 
- app.use(expsesh(sessionSettings));
+   io.to(room).emit(ROOM_USERS, {
+      room: room,
+      users: getRoomUsers(room),
+   });
+};
 
-// middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
+@param { SOCKET_EVENTS } CHAT_MESSAGE
+@param { Message }
 
-app.use(routes);
-
-
-sequelize.sync({ force: false }).then(() => {
-   app.listen(PORT, () => console.log('WE MADE IT'));
+socket.on(CHAT_MESSAGE, (message) => {
+   var cur_user = getCurrentUser(socket.id);
+   const { room } = cur_user;
+   io.to(room).emit(CHAT_MESSAGE, message)
 });
+
+socket.on( DISCONNECT, () => {
+const cur_user = getCurrentUser(socket.id);
+})
+   if (cur_user) {
+      const { id, username, room } = cur_user;
+      io.to(room).emit(
+         CHAT_MESSAGE,
+         new TextMessage(
+            "CHAT_BOT",
+            '${username}',
+             has left the room',
+         Message.BOT
+         )
+      );
+
+      removeUser(id);
+      io.to(room).emit(ROOM_USERS, {
+         room: room,
+         users: getRoomUsers(room),
+      });
+   }
+
+
+
+
+
+   // template engine setup
+   app.engine('handlebars', hbs.engine);
+   app.set('view engine', 'handlebars');
+
+   app.use(express.static('public'));
+
+   app.use(expsesh(sessionSettings));
+
+   // middlewares
+   app.use(express.json());
+   app.use(express.urlencoded({ extended: true }));
+
+   app.use(routes);
+
+
+   sequelize.sync({ force: false }).then(() => {
+      app.listen(PORT, () => console.log('WE MADE IT'));
+   });
