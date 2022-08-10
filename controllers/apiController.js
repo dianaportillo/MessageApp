@@ -27,6 +27,11 @@ router.post('/room', async (req, res, next) => {
     res.render('/room', {title: 'Chat Room'});
 });
 
+
+router.post('socket', async (req,res, next) => {
+    res.render('/socket');
+})
+
 router.post('/signup', async (req, res) => {
     try { 
         const newUser = await User.create(req.body);
