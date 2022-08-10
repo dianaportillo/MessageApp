@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/signin', (req,res) => {
-    res,render('signin', {
+    res.render('signin', {
         isLoggedIn: req.session.isLoggedIn,
     });
 });
@@ -66,6 +66,11 @@ router.get('/todos', async (req, res) => {
     } catch (error) {
         res.status(500).json({error});
     }
+});
+
+
+router.get('/room', async (req, res) => {
+    res.render('room')
 });
 
 router.use('/api', apiController);

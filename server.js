@@ -28,27 +28,6 @@ const sessionSettings = {
 
 const PORT = process.env.PORT || 3302;
 
-const { SOCKET_EVENTS } = require("./utils/helpers");
-const { Chat, TextChat } = require('./utils/chat');
-const {
-   addUser,
-   getCurrentUser,
-   removeUser,
-   getRooms,
-} = require('./utils/users');
-
-
-const io = require('socket.io')(server);
-
-io.on('connect', (socket) => {
-   const {
-      JOIN_ROOM,
-      CHAT_MESSAGE,
-      ROOM_USERS,
-      DISCONNECT
-   } = SOCKET_EVENTS;
-})
-
 
 // template engine setup
 app.engine('handlebars', hbs.engine);
@@ -56,7 +35,7 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static('public'));
 
- app.use(expsesh(sessionSettings));
+app.use(expsesh(sessionSettings));
 
 // middlewares
 app.use(express.json());
@@ -68,3 +47,4 @@ app.use(routes);
 sequelize.sync({ force: false }).then(() => {
    app.listen(PORT, () => console.log('WE MADE IT'));
 });
+
