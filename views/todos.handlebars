@@ -1,19 +1,27 @@
-<h1>MY Todos</h1>
-<form class="row g-3">
-  <div class="col-auto">
-    <label for="todoInput" class="visually-hidden">What do you need to do?</label>
-    <input type="text" class="form-control" id="todoInput" placeholder="Walk the dog">
-  </div>
-  <div class="col-auto">
-    <button id="addTodoBtn" type="submit" class="btn btn-primary mb-3">Submit</button>
-  </div>
-</form>
-
-<ul>
-    {{#each todos as |todo|}}
-        <li>
-          <p>ID: {{todo.id}}</p>
-          <p>Todo: {{todo.todo}}</p>
-        </li>
-    {{/each}}
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link="stylesheet" href="public/style.scss">
+    <title>Chat App</title>
+</head>
+<body>
+    
+            <h1>Welcome to Chat App</h1>
+        <div class="content">
+            <div>
+            <form action="/room" method="POST">
+                <input type="text" placeholder="Enter your Name" class="username" name="username" required>
+                <input type="text" placeholder="Enter Room Name" class="roomname" name="roomname" required>
+                <input type="submit" class="enter" value="Enter">
+            </form>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/public/todos.js"></script>
+</body>
+</html>
