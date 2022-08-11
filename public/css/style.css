@@ -41,3 +41,7 @@ button, input, optgroup, select, textarea {
     border-color: darkblue;
 }
 
+*, ::after, ::before {
+    box-sizing: border-box;
+    color: black;
+}
