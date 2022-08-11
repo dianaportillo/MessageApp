@@ -3,6 +3,7 @@ const {Todo, User} = require('../models');
 const bcrypt = require('bcryptjs');
 
 
+
 router.post('/todos', async (req, res) => {
     if(!req.session.isLoggedIn){
         res.status(401).json({error: 'You must be logged in'});
@@ -28,9 +29,6 @@ router.post('/room', async (req, res, next) => {
 });
 
 
-router.post('socket', async (req,res, next) => {
-    res.render('/socket');
-})
 
 router.post('/signup', async (req, res) => {
     try { 
