@@ -51,13 +51,13 @@ const Server = app.listen(PORT, () => {
    console.log(`Server Running on port ${PORT}`)
 });
 
-app.post('/', (req, res) => {
+app.post('/room', (req, res) => {
    roomname = req.body.roomname;
    username = req.body.username;
    res.redirect(`/room?username=${username}&roomname=${roomname}`)
 });
 
-app.get('/', (req, res) => {
+app.get('/room', (req, res) => {
    res.render('room')
 });
 
