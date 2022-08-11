@@ -50,6 +50,25 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 
-sequelize.sync({ force: false }).then(() => {
-   app.listen(PORT, () => console.log('WE MADE IT'));
+const socket = require('socket.io');
+
+
+const Server = app.listen(PORT, () => {
+   console.log(`Server Running on port ${PORT}`)
 });
+<<<<<<< HEAD
+=======
+
+app.post('/room', (req, res) => {
+   roomname = req.body.roomname;
+   username = req.body.username;
+   res.redirect(`/room?username=${username}&roomname=${roomname}`)
+});
+
+app.get('/room', (req, res) => {
+   res.render('room')
+});
+
+const io = socket(Server);
+require('./utils/socket')(io);
+>>>>>>> 8a10296865452947800ce2b62f85a4620e11eb21
