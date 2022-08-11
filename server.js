@@ -56,8 +56,6 @@ const socket = require('socket.io');
 const Server = app.listen(PORT, () => {
    console.log(`Server Running on port ${PORT}`)
 });
-<<<<<<< HEAD
-=======
 
 app.post('/room', (req, res) => {
    roomname = req.body.roomname;
@@ -71,4 +69,3 @@ app.get('/room', (req, res) => {
 
 const io = socket(Server);
 require('./utils/socket')(io);
->>>>>>> 8a10296865452947800ce2b62f85a4620e11eb21
