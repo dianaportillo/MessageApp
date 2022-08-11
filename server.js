@@ -5,9 +5,7 @@ const expsesh = require('express-session');
 const app = require("express")();
 const server = require('http').Server(app);
 
-const next = require("next");
-const nextApp = next({ dev });
-const nextHandler = nextApp.getRequestHandler();
+
 const SequelizeStore = require('connect-session-sequelize')(expsesh.Store);
 const sequelize = require('./config/connection');
 const routes = require('./controllers/homepageController');
