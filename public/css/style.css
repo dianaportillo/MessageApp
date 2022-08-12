@@ -86,3 +86,12 @@ div.online {
     margin: 4px;
     margin-top: 10%;
 }
+
+div form {
+    padding: 4%;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+
+
+}
