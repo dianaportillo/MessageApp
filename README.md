@@ -19,3 +19,4 @@ The chat app is then deployed and allows users to chat.
 ## Contributors
 - Uday Gautam
 - Diana Portillo
+- NaShari Coleman
