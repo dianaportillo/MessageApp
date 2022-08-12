@@ -11,8 +11,11 @@ The chat app is then deployed and allows users to chat.
 - Socket.io
 - Node.js
 - Express.js
+- Handlebars
 
 ## Demo and Deployment
 
 
 ## Contributors
+Uday Gautam
+Diana Portillo
